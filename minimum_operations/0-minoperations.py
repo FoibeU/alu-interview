@@ -1,24 +1,30 @@
 #!/usr/bin/python3
-#prepare for interview questions
+"""
+Minimum Operations interview questions
+"""
+
+import math
+
+
+def factors(n):
+    """factors of n number"""
+    mylist = []
+    while n % 2 == 0:
+        mylist.append(2)
+        n = n / 2
+    for i in range(3, int(math.sqrt(n)) + 1, 2):
+        while n % i == 0:
+            mylist.append(i)
+            n = n / i
+    if n > 2:
+        mylist.append(n)
+    return mylist
+
+
 def minOperations(n):
-    if n <= 1:
+    """calculate the minimum operations"""
+    if type(n) != int or n < 2:
         return 0
-    
-    # Array to store the minimum operations for each length.
-    dp = [0] * (n + 1)
-
-    for i in range(2, n + 1):
-        # Initialize with the maximum possible value.
-        dp[i] = float('inf')
-        for j in range(1, i):
-            if i % j == 0:
-                # If j is a divisor of i, we can create a substring of length j
-                # and then repeat it (i // j) times to get a string of length i.
-                dp[i] = min(dp[i], dp[j] + i // j)
-    
-    return dp[n]
-
-# Example usage:
-n = 9
-result = minOperations(n)
-print("Number of operations:", result)  # Output: Number of operations: 6
+    else:
+        numOperations = sum(factors(n))
+        return int(numOperations)
